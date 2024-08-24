@@ -15,7 +15,7 @@ class IAPDF(IIApdf):
         self.__caminho_pdf = os.path.join(self.__caminho_base, 'teste.pdf')
         self.__parse_ia = LlamaParse(
             result_type='markdown',
-            parsing_instruction='Este pdf contem tabelas com as colunas ITEM, PRODUTO, DESCRIÇÃO, QTD, UNIDADE, VALOR REF.Eu gostaria de obter as tabelas, use o separador | '
+            parsing_instruction=intrucao_ia
         )
 
     def obter_texto(self) -> List:

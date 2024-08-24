@@ -1,6 +1,8 @@
 from openpyxl import Workbook
 from src.operacao_dados.ioperacao_dados import IoperacaoDados
 from llama_index.core.schema import Document
+from openpyxl.styles import Alignment
+
 import re
 import os
 
@@ -11,21 +13,43 @@ class OperacaoDadosXLSX(IoperacaoDados[Document]):
         self.__caminho_raiz = os.getcwd()
         self.__planilha = Workbook()
         self.__palanilha_ativa = self.__planilha.active
-        self.__planilha.active = 'Tabela Extraida'
+        self.__palanilha_ativa.title = 'Tabela Extraida'
+        self.__linha_inicio = 1
+        self.__largura_maxima = 0
 
     def gerar_dados(self, reposta_ia: Document):
         for chave, tabela in enumerate(reposta_ia):
-            texto_sem_separadores_orig = re.sub(
-                r'^\|---\|---\|---\|---\|---\|---\|\s*\n?', '', tabela.text, flags=re.MULTILINE)
-            texto_sem_separadores = texto_sem_separadores_orig.split('\n')
-            colunas = [[item for item in coluna.split(
-                '|') if item.strip()] for coluna in texto_sem_separadores]
-            cabecalho, *linhas = colunas
+            resultado = re.sub(r'\|\-\-\-.*\|\n', '', tabela.text)
+            linhas = resultado.split('\n')
+            linhas_tabela = linhas[1:]
             if chave == 0:
+                cabecalho = linhas[0].strip('|').strip('.').split('|')
                 self.__palanilha_ativa.append(cabecalho)
-            else:
-                for linha in linhas:
-                    self.__palanilha_ativa.append(linha)
+            for linha in linhas_tabela:
+                linha_tabela = linha.strip('|').split('|')
+                self.__palanilha_ativa.append(linha_tabela)
+
+    def centralizar(self):
+
+        for cell in self.__palanilha_ativa[self.__linha_inicio]:
+            cell.alignment = Alignment(
+                horizontal='center', vertical='center', wrap_text=True)
+
+    def realizar_espacamento_coluna(self):
+        for coluna in self.__palanilha_ativa.columns:
+
+            letra_coluna = coluna[0].column_letter
+            for celula in coluna:
+                try:
+
+                    if celula.value:
+                        largura_maxima = max(self.__largura_maxima,
+                                             len(str(celula.value)))
+                except:
+                    pass
+
+            adjusted_width = largura_maxima + 2
+            self.__palanilha_ativa.column_dimensions[letra_coluna].width = adjusted_width
 
     def salvar_dados(self):
         self.__planilha.save(os.path.join(

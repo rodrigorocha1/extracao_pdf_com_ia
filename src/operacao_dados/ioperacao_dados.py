@@ -14,3 +14,11 @@ class IoperacaoDados(ABC,  Generic[T]):
     @abstractmethod
     def salvar_dados(self):
         pass
+
+    @abstractmethod
+    def centralizar(self):
+        pass
+
+    @abstractmethod
+    def realizar_espacamento_coluna(self):
+        pass
