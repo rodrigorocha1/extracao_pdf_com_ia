@@ -10,7 +10,7 @@ load_dotenv()
 
 class IAPDF(IIApdf):
 
-    def __init__(self) -> None:
+    def __init__(self, intrucao_ia: str) -> None:
         self.__caminho_base = os.getcwd()
         self.__caminho_pdf = os.path.join(self.__caminho_base, 'teste.pdf')
         self.__parse_ia = LlamaParse(
