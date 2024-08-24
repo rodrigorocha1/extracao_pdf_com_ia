@@ -9,7 +9,6 @@ load_dotenv()
 
 
 class IAPDF(IIApdf):
-    os.environ['LLAMA_CLOUD_API_KEY'] = os.environ['key']
 
     def __init__(self) -> None:
         self.__caminho_base = os.getcwd()
@@ -21,7 +20,3 @@ class IAPDF(IIApdf):
 
     def obter_texto(self) -> List:
         return self.__parse_ia.load_data(self.__caminho_pdf)
-
-
-ia_pdf = IAPDF()
-print(ia_pdf.obter_texto)
