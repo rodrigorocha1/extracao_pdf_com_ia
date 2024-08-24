@@ -31,8 +31,9 @@ O código do projeto está disponível no seguinte repositório: [extracao_pdf_c
 Você pode assistir à demonstração do processo completo no vídeo a seguir:
 [![Vídeo de Demonstração]](https://www.youtube.com/watch?v=HExBJzaeKzE)
 
+ ```
+    Observação: criar .env com LLAMA_CLOUD_API_KEY
+ ```
 
-"""
-Observação: criar .env com LLAMA_CLOUD_API_KEY
-"""
+
 
