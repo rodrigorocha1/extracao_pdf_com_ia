@@ -33,7 +33,9 @@ class OperacaoDadosXLSX(IoperacaoDados[Document]):
 
         for cell in self.__palanilha_ativa[self.__linha_inicio]:
             cell.alignment = Alignment(
-                horizontal='center', vertical='center', wrap_text=True)
+                horizontal='center',
+                vertical='center'
+            )
 
     def realizar_espacamento_coluna(self):
         for coluna in self.__palanilha_ativa.columns:
@@ -43,8 +45,11 @@ class OperacaoDadosXLSX(IoperacaoDados[Document]):
                 try:
 
                     if celula.value:
-                        largura_maxima = max(self.__largura_maxima,
-                                             len(str(celula.value)))
+                        largura_maxima = max(
+                            self.__largura_maxima,
+
+                            len(str(celula.value))
+                        )
                 except:
                     pass
 
